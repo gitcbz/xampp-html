@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数字世界中心</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 背景动画 */
+        .bg-animation {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .bg-animation span {
+            position: absolute;
+            display: block;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            animation: move 25s linear infinite;
+            bottom: -150px;
+        }
+
+        .bg-animation span:nth-child(1) { left: 25%; width: 80px; height: 80px; animation-delay: 0s; }
+        .bg-animation span:nth-child(2) { left: 10%; width: 20px; height: 20px; animation-delay: 2s; animation-duration: 12s; }
+        .bg-animation span:nth-child(3) { left: 70%; width: 20px; height: 20px; animation-delay: 4s; }
+        .bg-animation span:nth-child(4) { left: 40%; width: 60px; height: 60px; animation-delay: 0s; animation-duration: 18s; }
+        .bg-animation span:nth-child(5) { left: 65%; width: 20px; height: 20px; animation-delay: 0s; }
+        .bg-animation span:nth-child(6) { left: 75%; width: 110px; height: 110px; animation-delay: 3s; }
+        .bg-animation span:nth-child(7) { left: 35%; width: 150px; height: 150px; animation-delay: 7s; }
+        .bg-animation span:nth-child(8) { left: 50%; width: 25px; height: 25px; animation-delay: 15s; animation-duration: 45s; }
+        .bg-animation span:nth-child(9) { left: 20%; width: 15px; height: 15px; animation-delay: 2s; animation-duration: 35s; }
+        .bg-animation span:nth-child(10) { left: 85%; width: 150px; height: 150px; animation-delay: 0s; animation-duration: 11s; }
+
+        @keyframes move {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; border-radius: 0; }
+            100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; border-radius: 50%; }
+        }
+
+        /* 主容器 */
+        .main-container {
+            text-align: center;
+            z-index: 1;
+            animation: fadeInUp 1s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 标题 */
+        .main-title {
+            font-size: 64px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, #fff, #00d2ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px rgba(0, 210, 255, 0.5)); }
+            to { filter: drop-shadow(0 0 30px rgba(0, 210, 255, 0.8)); }
+        }
+
+        .subtitle {
+            font-size: 24px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 60px;
+        }
+
+        /* 功能卡片容器 */
+        .features-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            justify-content: center;
+            margin-bottom: 40px;
+            max-width: 1000px;
+        }
+
+        /* 功能卡片 */
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s;
+            opacity: 0;
+        }
+
+        .feature-card:hover::before {
+            animation: shine 0.5s ease;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); opacity: 0; }
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .feature-card:nth-child(1) .feature-icon { animation-delay: 0s; }
+        .feature-card:nth-child(2) .feature-icon { animation-delay: 1.5s; }
+        .feature-card:nth-child(3) .feature-icon { animation-delay: 3s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .feature-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .feature-description {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .feature-button {
+            padding: 12px 30px;
+            background: linear-gradient(45deg, #00d2ff, #3a7bd5);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
+        }
+
+        .feature-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 210, 255, 0.5);
+        }
+
+        /* 底部信息 */
+        .footer-info {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+
+        /* 版本信息 */
+        .version-info {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 12px;
+        }
+
+        /* 快捷键提示 */
+        .shortcut-hint {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .shortcut-hint:hover {
+            opacity: 1;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 48px;
+            }
+            
+            .subtitle {
+                font-size: 20px;
+            }
+            
+            .features-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .feature-card {
+                height: 350px;
+                padding: 30px;
+            }
+            
+            .feature-icon {
+                font-size: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 背景动画 -->
+    <div class="bg-animation">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <!-- 版本信息 -->
+    <div class="version-info">
+        v1.0.0
+    </div>
+
+    <!-- 主容器 -->
+    <div class="main-container">
+        <h1 class="main-title">数字世界中心</h1>
+        <p class="subtitle">探索游戏世界，管理云端数据</p>
+        
+        <!-- 功能卡片 -->
+        <div class="features-container">
+            <!-- 游戏中心卡片 -->
+            <div class="feature-card" onclick="navigateToGame()">
+                <div class="feature-icon">🎮</div>
+                <h2 class="feature-title">游戏中心</h2>
+                <p class="feature-description">
+                    探索精彩的游戏世界<br>
+                    体验各种类型的HTML5游戏<br>
+                    包括贪吃蛇、俄罗斯方块、2048等<br>
+                    随时随地享受游戏乐趣
+                </p>
+                <button class="feature-button">进入游戏</button>
+            </div>
+            
+            <!-- 本地网盘卡片 -->
+            <div class="feature-card" onclick="navigateToCloud()">
+                <div class="feature-icon">☁️</div>
+                <h2 class="feature-title">本地云盘</h2>
+                <p class="feature-description">
+                    安全可靠的本地存储<br>
+                    支持文件上传下载管理<br>
+                    多种文件格式支持<br>
+                    随时随地访问你的文件
+                </p>
+                <button class="feature-button">进入云盘</button>
+            </div>
+
+            <!-- 我的世界卡片 -->
+            <div class="feature-card" onclick="navigateToMinecraft()">
+                <div class="feature-icon">🌍</div>
+                <h2 class="feature-title">我的世界</h2>
+                <p class="feature-description">
+                    3D方块建造游戏<br>
+                    自由创造和探索<br>
+                    无限的方块世界<br>
+                    发挥你的创造力
+                </p>
+                <button class="feature-button">开始游戏</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部信息 -->
+    <div class="footer-info">
+        <p>&copy; 2025 CBZ Labs. All rights reserved.</p>
+    </div>
+
+    <!-- 快捷键提示 -->
+    <div class="shortcut-hint">
+        💡 提示：按 Ctrl+G 进入游戏 | Ctrl+C 进入云盘 | Ctrl+M 我的世界
+    </div>
+
+    <script>
+        // 检查是否在Electron环境中
+        const isElectron = window.electronAPI !== undefined;
+
+        // 导航函数
+        function navigateToGame() {
+            createParticles(event);
+            setTimeout(() => {
+                if (isElectron) {
+                    window.electronAPI.navigateTo('game');
+                } else {
+                    window.location.href = 'game/index.html';
+                }
+            }, 500);
+        }
+
+        function navigateToCloud() {
+            createParticles(event);
+            setTimeout(() => {
+                if (isElectron) {
+                    window.electronAPI.navigateTo('cloud');
+                } else {
+                    window.location.href = 'cloud/index.html';
+                }
+            }, 500);
+        }
+
+        function navigateToMinecraft() {
+            createParticles(event);
+            setTimeout(() => {
+                if (isElectron) {
+                    window.electronAPI.navigateTo('minecraft');
+                } else {
+                    window.location.href = 'game/pre/minecraft-r.html';
+                }
+            }, 500);
+        }
+
+        // 创建粒子效果
+        function createParticles(event) {
+            const colors = ['#00d2ff', '#3a7bd5', '#667eea', '#764ba2'];
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.position = 'fixed';
+                particle.style.left = event.clientX + 'px';
+                particle.style.top = event.clientY + 'px';
+                particle.style.width = '10px';
+                particle.style.height = '10px';
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.borderRadius = '50%';
+                particle.style.pointerEvents = 'none';
+                particle.style.zIndex = '1000';
+                
+                const angle = (Math.PI * 2 * i) / particleCount;
+                const velocity = 100 + Math.random() * 100;
+                const x = Math.cos(angle) * velocity;
+                const y = Math.sin(angle) * velocity;
+                
+                particle.style.animation = `particleAnimation 1s ease-out forwards`;
+                particle.style.setProperty('--x', x + 'px');
+                particle.style.setProperty('--y', y + 'px');
+                
+                // 添加动画样式
+                if (!document.querySelector('#particleStyles')) {
+                    const style = document.createElement('style');
+                    style.id = 'particleStyles';
+                    style.textContent = `
+                        @keyframes particleAnimation {
+                            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+                            100% { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; }
+                        }
+                    `;
+                    document.head.appendChild(style);
+                }
+                
+                document.body.appendChild(particle);
+                
+                setTimeout(() => {
+                    particle.remove();
+                }, 1000);
+            }
+        }
+
+        // 添加键盘快捷键
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key.toLowerCase()) {
+                    case 'g':
+                        e.preventDefault();
+                        navigateToGame();
+                        break;
+                    case 'c':
+                        e.preventDefault();
+                        navigateToCloud();
+                        break;
+                    case 'm':
+                        e.preventDefault();
+                        navigateToMinecraft();
+                        break;
+                }
+            }
+        });
+
+        // 页面加载动画
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 1s ease';
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+
+        // 显示版本信息
+        if (isElectron) {
+            document.querySelector('.version-info').textContent = `v${window.electronAPI.version}`;
+        }
+    </script>
+</body>
+</html>
